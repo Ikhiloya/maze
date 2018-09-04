@@ -3,7 +3,7 @@ package com.loya.maze.entity;
 public class Photo {
     private String photoName;
     private String description;
-    private String ImageUrl;
+    private String imageUrl;
 
 
     protected Photo() {
@@ -12,7 +12,7 @@ public class Photo {
     public Photo(String photoName, String description, String imageUrl) {
         this.photoName = photoName;
         this.description = description;
-        ImageUrl = imageUrl;
+        this.imageUrl = imageUrl;
     }
 
     public String getPhotoName() {
@@ -32,10 +32,10 @@ public class Photo {
     }
 
     public String getImageUrl() {
-        return ImageUrl;
+        return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
-        ImageUrl = imageUrl;
+        this.imageUrl = imageUrl;
     }
 }

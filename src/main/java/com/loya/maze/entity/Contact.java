@@ -1,7 +1,7 @@
 package com.loya.maze.entity;
 
 public class Contact {
-    private int phone;
+    private String phone;
     private String email;
     private String address;
     private String lga;
@@ -12,7 +12,7 @@ public class Contact {
     public Contact() {
     }
 
-    public Contact(int phone, String email, String address, String lga, String state, String country) {
+    public Contact(String phone, String email, String address, String lga, String state, String country) {
         this.phone = phone;
         this.email = email;
         this.address = address;
@@ -22,11 +22,11 @@ public class Contact {
     }
 
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

@@ -1,43 +1,77 @@
 package com.loya.maze.entity;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.BatchSize;
 
-import javax.persistence.Id;
-import java.util.List;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-@Document(collection = "Users")
-public class User {
+@Entity
+@Table(name = "auth_user")
+public class User implements Serializable {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Size(min = 1, max = 50)
+    @Column(length = 50, unique = true, nullable = false)
     private String uuid;
-    private String username;
+
+    @Size(min = 1, max = 50)
+    @Column(length = 50, unique = true, nullable = false)
+    private String login;
+
+    @JsonIgnore
+    @NotNull
+    @Size(min = 60, max = 60)
+    @Column(name = "password_hash", length = 60, nullable = false)
     private String password;
-    private List<Role> roles;
 
+    @Size(max = 50)
+    @Column(name = "first_name", length = 50)
+    private String firstName;
 
-    protected User() {
+    @Size(max = 50)
+    @Column(name = "last_name", length = 50)
+    private String lastName;
+
+    @Email
+    @Size(min = 5, max = 254)
+    @Column(length = 254, unique = true)
+    private String email;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
+    @BatchSize(size = 20)
+    private Set<Authority> authorities = new HashSet<>();
+
+    public User() {
     }
 
-    public User(String uuid, String username, String password, List<Role> roles) {
-        this.uuid = uuid;
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
+    public Long getId() {
+        return id;
     }
 
-    public String getUuid() {
-        return uuid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public String getLogin() {
+        return login;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
@@ -48,11 +82,43 @@ public class User {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }
